@@ -1,0 +1,1 @@
+text = "* Encounter.{encounter 0}{end}";

@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"Border_Sprite",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Border_Sprite",
+  "parent":{
+    "name":"Border",
+    "path":"folders/Scripts/Border.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
