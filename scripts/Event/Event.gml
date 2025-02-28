@@ -5,7 +5,8 @@ function Event_Init(){
 	    FUNCTION,
 	    SLEEP,
 	    DIALOG,
-	    CHARMOVE
+	    CHARMOVE,
+	    CHOICE
 	}
 }
 
@@ -44,6 +45,20 @@ function Event_Dialog(key, string) {
     ds_list_add(queue.events, {
         type: EVENT_TYPE.DIALOG,
         string: string
+    });
+}
+
+function Event_Choice(key, text, choice_str, callback) {
+    var queue = Event_GetQueue(key);
+    
+    var _final_text = text + "&&" + choice_str + "{choice `TMP`}";
+    
+    ds_list_add(queue.events, {
+        type: EVENT_TYPE.CHOICE,
+        text: _final_text,
+        callback: callback,
+        event_key: key, // 存储事件键
+        completed: false
     });
 }
 
@@ -87,6 +102,72 @@ function Event_Step() {
         if (!_queue.active || _queue.paused || ds_list_size(_queue.events) == 0) continue;
 
         var _event = ds_list_find_value(_queue.events, _queue.index);
+		
+		switch (_event.type) {
+            case EVENT_TYPE.FUNCTION:
+                _event.func();
+                _queue.index++;
+                break;
+                
+            case EVENT_TYPE.SLEEP:
+                if (is_undefined(_queue.current_data)) {
+                    _queue.current_data = {
+                        frames_remaining: _event.frames
+                    };
+                }
+                _queue.current_data.frames_remaining--;
+                if (_queue.current_data.frames_remaining <= 0) {
+                    _queue.index++;
+                    _queue.current_data = undefined;
+                }
+                break;
+                
+            case EVENT_TYPE.DIALOG:
+                if (is_undefined(_queue.current_data)) {
+                    Dialog_Add(_event.string);
+					Dialog_Start();
+                    _queue.current_data = { dialog_active: true };
+                }
+                if (!instance_exists(ui_dialog)) {
+                    _queue.index++;
+                    _queue.current_data = undefined;
+                }
+                break;
+                
+			case EVENT_TYPE.CHOICE:
+        if (is_undefined(_queue.current_data)) {
+            Dialog_Add(_event.text);
+            Dialog_Start();
+            _queue.current_data = { started: true };
+            return;
+        }
+        
+        if (!instance_exists(ui_dialog) && !_event.completed) {
+            var _choice = Player_GetTextTyperChoice();
+            // 传递 _key 和 _choice
+            _event.callback(_event.event_key, _choice);
+            _event.completed = true;
+            _queue.index++;
+            _queue.current_data = undefined;
+        }
+        break;
+				
+            case EVENT_TYPE.CHARMOVE:
+                var _obj = _event.obj;
+                var _dir = _event.dir;
+                var _dist = _event.dist;
+
+                if (is_undefined(_queue.current_data)) {
+                    _obj.move[_dir] = _dist;
+                    _queue.current_data = { initialized: true };
+                }
+
+                if (_obj.move[_dir] <= 0) {
+                    _queue.index++;
+                    _queue.current_data = undefined;
+                }
+                break;
+        }
 
         if (_queue.index >= ds_list_size(_queue.events)) {
             _queue.active = false;

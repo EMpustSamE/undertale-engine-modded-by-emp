@@ -47,6 +47,8 @@ show_debug_message("Game Version: "+GAME_VERSION);
 
 //show_debug_overlay(true);
 
+Storage_GetSettings().LoadFromFile();
 volume = Storage_GetSettingsFlag(FLAG_SETTINGS_VOLUME,1);
+global.classic_ui = Storage_GetSettingsFlag(FLAG_SETTINGS_CLASSIC_UI,global.classic_ui);
 
 room_goto_next();

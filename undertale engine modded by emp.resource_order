@@ -67,6 +67,7 @@
     {"name":"obj_gmlive","order":4,"path":"objects/obj_gmlive/obj_gmlive.yy",},
     {"name":"settings","order":24,"path":"objects/settings/settings.yy",},
     {"name":"shaker","order":3,"path":"objects/shaker/shaker.yy",},
+    {"name":"trigger_event","order":3,"path":"objects/trigger_event/trigger_event.yy",},
     {"name":"trigger_warp","order":2,"path":"objects/trigger_warp/trigger_warp.yy",},
     {"name":"trigger","order":1,"path":"objects/trigger/trigger.yy",},
     {"name":"world","order":22,"path":"objects/world/world.yy",},

@@ -38,10 +38,10 @@ if(_menu==0){
 		_inst_continue.text=_prefix+Lang_GetString("menu.continue");
 		_inst_continue.override_color_text_enabled=true;
 		_inst_reset=instance_create_depth(390/2,210/2,0,text_typer);
-		_inst_continue.text=_prefix+Lang_GetString("menu.reset");
+		_inst_reset.text=_prefix+Lang_GetString("menu.reset");
 		_inst_reset.override_color_text_enabled=true;
 		_inst_settings=instance_create_depth(264/2,250/2,0,text_typer);
-		_inst_continue.text=_prefix+Lang_GetString("menu.settings");
+		_inst_settings.text=_prefix+Lang_GetString("menu.settings");
 		_inst_settings.override_color_text_enabled=true;
 		event_user(2);
 		

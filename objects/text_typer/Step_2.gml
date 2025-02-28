@@ -17,6 +17,8 @@ if(_skippable&&!_paused&&Input_IsPressed(INPUT.CANCEL)){
 if(_choice!=-1){
 	if((_choice==0&&Input_IsPressed(INPUT.RIGHT))||(_choice==1&&Input_IsPressed(INPUT.LEFT))){
 		_choice=!_choice;
+		Anim_Create(id,"_choice_soul_x",ANIM_TWEEN.CUBIC,ANIM_EASE.OUT,_choice_soul_x,_choice_x[_choice] - _choice_soul_x,15 * !global.classic_ui);
+		Anim_Create(id,"_choice_soul_y",ANIM_TWEEN.CUBIC,ANIM_EASE.OUT,_choice_soul_y,_choice_y[_choice] - _choice_soul_y,15 * !global.classic_ui);
 		audio_play_sound(snd_menu_switch,0,false);
 	}
 	if(Input_IsPressed(INPUT.CONFIRM)){

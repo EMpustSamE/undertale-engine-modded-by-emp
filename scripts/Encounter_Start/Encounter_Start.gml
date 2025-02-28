@@ -1,5 +1,5 @@
 function Encounter_Start(encounter,anim=true,exclam=true) {
-	if(Encounter_IsExists(encounter)){
+	if(Encounter_IsExists(real(encounter))){
 		if(!instance_exists(char_player)){
 			anim=false;
 		}
