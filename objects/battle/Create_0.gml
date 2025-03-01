@@ -73,6 +73,9 @@ _menu_choice_mercy_override_name[2]="";
 _menu_fleeable=false;
 _menu_mercy_flee_enabled=Encounter_IsMenuMercyFleeEnabled(_encounter);
 _menu_dialog=Encounter_GetMenuDialog(_encounter);
+_menu_dialog_candidates=ds_list_create();
+_menu_dialog_candidates_enabled=0;
+_menu_dialog_candidates_auto_clear_enabled=1;
 
 _menu_fight_damage=0;
 _menu_fight_anim_time=0;

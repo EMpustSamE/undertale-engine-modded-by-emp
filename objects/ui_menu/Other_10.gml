@@ -13,15 +13,15 @@ if (global.classic_ui) {
         }
         if (!instance_exists(_inst_item_use)) {
             _inst_item_use = instance_create_depth((188 + 6 + 38)  , + (52 + 6 + 302) , 0, text_typer);
-            _inst_item_use.text = _prefix + "USE";
+            _inst_item_use.text = _prefix + Lang_GetString("ui.menu.item.use");
         }
         if (!instance_exists(_inst_item_info)) {
             _inst_item_info = instance_create_depth((188 + 6 + 134)  , + (52 + 6 + 302) , 0, text_typer);
-            _inst_item_info.text = _prefix + "INFO";
+            _inst_item_info.text = _prefix + Lang_GetString("ui.menu.item.info");
         }
         if (!instance_exists(_inst_item_drop)) {
             _inst_item_drop = instance_create_depth((188 + 6 + 248)  , + (52 + 6 + 302) , 0, text_typer);
-            _inst_item_drop.text = _prefix + "DROP";
+            _inst_item_drop.text = _prefix + Lang_GetString("ui.menu.item.drop");
         }
     } else {
         if (_menu != 2) {
@@ -55,7 +55,7 @@ if (global.classic_ui) {
 		var weapon=itemTypeManager.GetNameOrFallback(Player_GetItemWeapon());
 		var armor=itemTypeManager.GetNameOrFallback(Player_GetItemArmor());
 		var gold=Player_GetGold();
-            _inst_stat_0.text = _prefix + "{define `NAME` `" + name + "`}{define `LV` " + string(lv) + "}{define `HP` " + string(hp) + "}{define `HP_MAX` " + string(hp_max) + "}{define `ATK` " + string(atk) + "}{define `ATK_ITEM` " + string(atk_item) + "}{define `DEF` " + string(def) + "}{define `DEF_ITEM` " + string(def_item) + "}{define `WEAPON` `" + weapon + "`}{define `ARMOR` `" + armor + "`}{define `GOLD` " + string(gold) + "}" + "\"{insert NAME}\"{space_y -1}&&{space_y 0}LV  {insert LV}&HP  {insert HP} / {insert HP_MAX}&&AT  {insert ATK} ({insert ATK_ITEM})&DF  {insert DEF} ({insert DEF_ITEM}){space_y -1}&&{space_y 0}WEAPON: {insert WEAPON}&ARMOR: {insert ARMOR}{space_y 4}&{space_y 0}GOLD: {insert GOLD}";
+            _inst_stat_0.text = _prefix + "{define `NAME` `" + name + "`}{define `LV` " + string(lv) + "}{define `HP` " + string(hp) + "}{define `HP_MAX` " + string(hp_max) + "}{define `ATK` " + string(atk) + "}{define `ATK_ITEM` " + string(atk_item) + "}{define `DEF` " + string(def) + "}{define `DEF_ITEM` " + string(def_item) + "}{define `WEAPON` `" + weapon + "`}{define `ARMOR` `" + armor + "`}{define `GOLD` " + string(gold) + "}" + Lang_GetString("ui.menu.stat.0");
         }
         if (!instance_exists(_inst_stat_1)) {
             _inst_stat_1 = instance_create_depth((188 + 6 + 190)  , + (52 + 6 + 182) , 0, text_typer);
@@ -63,7 +63,7 @@ if (global.classic_ui) {
 		var lv=Player_GetLv();
 		var lv_xp=Player_GetLvExp(lv+1);
 		var kills=Player_GetKills();
-            _inst_stat_1.text = _prefix + "{define `EXP` " + string(xp) + "}{define `EXP_NEXT` " + (lv_xp != -1 ? string(lv_xp - xp) : "`N/A`") + "}" + "EXP: {insert EXP}&NEXT: {insert EXP_NEXT}" + (kills > 0 ? "{define `KILLS` " + string(kills) + "}" + "{space_y -1}&&{space_y 0}&{space_y 4}&{space_y 0}KILLS: {insert KILLS}": "");
+            _inst_stat_1.text = _prefix + "{define `EXP` " + string(xp) + "}{define `EXP_NEXT` " + (lv_xp != -1 ? string(lv_xp - xp) : "`N/A`") + "}" + Lang_GetString("ui.menu.stat.1") + (kills > 0 ? "{define `KILLS` " + string(kills) + "}" + Lang_GetString("ui.menu.stat.2"): "");
         }
     } else {
         if (instance_exists(_inst_stat_0)) {
@@ -107,15 +107,15 @@ if (global.classic_ui) {
         }
         if (!instance_exists(_inst_item_use)) {
             _inst_item_use = instance_create_depth((188 + 6 + 38), (52 + 6 + 302), 0, text_typer);
-            _inst_item_use.text = _prefix + "USE";
+            _inst_item_use.text = _prefix + Lang_GetString("ui.menu.item.use");
         }
         if (!instance_exists(_inst_item_info)) {
             _inst_item_info = instance_create_depth((188 + 6 + 134), (52 + 6 + 302), 0, text_typer);
-            _inst_item_info.text = _prefix + "INFO";
+            _inst_item_info.text = _prefix + Lang_GetString("ui.menu.item.info");
         }
         if (!instance_exists(_inst_item_drop)) {
             _inst_item_drop = instance_create_depth((188 + 6 + 248), (52 + 6 + 302), 0, text_typer);
-            _inst_item_drop.text = _prefix + "DROP";
+            _inst_item_drop.text = _prefix + Lang_GetString("ui.menu.item.drop");
         }
     } else {
         if (_menu != 2) {
@@ -151,7 +151,7 @@ if (global.classic_ui) {
 		var weapon=itemTypeManager.GetNameOrFallback(Player_GetItemWeapon());
 		var armor=itemTypeManager.GetNameOrFallback(Player_GetItemArmor());
 		var gold=Player_GetGold();
-            _inst_stat_0.text = _prefix + "{define `NAME` `" + name + "`}{define `LV` " + string(lv) + "}{define `HP` " + string(hp) + "}{define `HP_MAX` " + string(hp_max) + "}{define `ATK` " + string(atk) + "}{define `ATK_ITEM` " + string(atk_item) + "}{define `DEF` " + string(def) + "}{define `DEF_ITEM` " + string(def_item) + "}{define `WEAPON` `" + weapon + "`}{define `ARMOR` `" + armor + "`}{define `GOLD` " + string(gold) + "}" + "\"{insert NAME}\"{space_y -1}&&{space_y 0}LV  {insert LV}&HP  {insert HP} / {insert HP_MAX}&&AT  {insert ATK} ({insert ATK_ITEM})&DF  {insert DEF} ({insert DEF_ITEM}){space_y -1}&&{space_y 0}WEAPON: {insert WEAPON}&ARMOR: {insert ARMOR}{space_y 4}&{space_y 0}GOLD: {insert GOLD}";
+            _inst_stat_0.text = _prefix + "{define `NAME` `" + name + "`}{define `LV` " + string(lv) + "}{define `HP` " + string(hp) + "}{define `HP_MAX` " + string(hp_max) + "}{define `ATK` " + string(atk) + "}{define `ATK_ITEM` " + string(atk_item) + "}{define `DEF` " + string(def) + "}{define `DEF_ITEM` " + string(def_item) + "}{define `WEAPON` `" + weapon + "`}{define `ARMOR` `" + armor + "`}{define `GOLD` " + string(gold) + "}" + Lang_GetString("ui.menu.stat.0");
         }
         if (!instance_exists(_inst_stat_1)) {
             _inst_stat_1 = instance_create_depth((188 + 6 + 190), (52 + 6 + 182), 0, text_typer);
@@ -159,7 +159,7 @@ if (global.classic_ui) {
 		var lv=Player_GetLv();
 		var lv_xp=Player_GetLvExp(lv+1);
 		var kills=Player_GetKills();
-            _inst_stat_1.text = _prefix + "{define `EXP` " + string(xp) + "}{define `EXP_NEXT` " + (lv_xp != -1 ? string(lv_xp - xp) : "`N/A`") + "}" + "EXP: {insert EXP}&NEXT: {insert EXP_NEXT}" + (kills > 0 ? "{define `KILLS` " + string(kills) + "}" + "{space_y -1}&&{space_y 0}&{space_y 4}&{space_y 0}KILLS: {insert KILLS}": "");
+            _inst_stat_1.text = _prefix + "{define `EXP` " + string(xp) + "}{define `EXP_NEXT` " + (lv_xp != -1 ? string(lv_xp - xp) : "`N/A`") + "}" + Lang_GetString("ui.menu.stat.1") + (kills > 0 ? "{define `KILLS` " + string(kills) + "}" + Lang_GetString("ui.menu.stat.2"): "");
         }
     } else {
         Anim_Create(_destroy_time, "1", 0, 0, _destroy_time[1], 20 - _destroy_time[1], 20 - _destroy_time[1]);

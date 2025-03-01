@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"Battle_SetMenuDialogCandidateEnabled",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Battle_SetMenuDialogCandidateEnabled",
+  "parent":{
+    "name":"Candidate",
+    "path":"folders/Scripts/Battle/Menu/Candidate.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

@@ -7,7 +7,12 @@ function Battle_SetState() {
 	//菜单
 	if(STATE==BATTLE_STATE.MENU){
 		Battle_SetNextState(BATTLE_STATE.DIALOG);
-	
+		if (Battle_IsMenuDialogCandidateEnabled() && Battle_GetMenuDialogCandidateNumber() > 0)
+        {
+            Battle_SetMenuDialog(Battle_GetMenuDialogFromCandidates())
+            if Battle_IsMenuDialogCandidatesAutoClearEnabled()
+                Battle_ClearMenuDialogCandidates()
+        }
 		Battle_SetMenuChoiceEnemy(0,false);
 		Battle_SetMenuChoiceAction(0,false);
 		Battle_SetMenu(BATTLE_MENU.BUTTON,false);
