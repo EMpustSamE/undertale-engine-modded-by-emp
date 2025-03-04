@@ -32,10 +32,7 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":{
-    "name":"spr_battle_button_mercy",
-    "path":"sprites/spr_battle_button_mercy/spr_battle_button_mercy.yy",
-  },
+  "spriteId":null,
   "spriteMaskId":null,
   "visible":true,
 }

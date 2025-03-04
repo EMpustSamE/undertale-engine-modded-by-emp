@@ -8,6 +8,11 @@ Encounter_Init();
 BGM_Init();
 Dialog_Init();
 Demo_Init();
+Console_Init();
+Console_SetStatusNumber(3);
+Console_SetStatusRatio(0,2/11);
+Console_SetStatusRatio(1,8/11);
+Console_SetStatusRatio(2,11/11);
 
 Input_Init();
 Input_Bind(INPUT.CONFIRM,INPUT_TYPE.KEYBOARD,0,vk_enter);
@@ -45,7 +50,9 @@ show_debug_message("Game Name: "+GAME_NAME);
 show_debug_message("Game Author: "+GAME_AUTHOR);
 show_debug_message("Game Version: "+GAME_VERSION);
 
-//show_debug_overlay(true);
+if(global.debug){
+	show_debug_overlay(true);
+}
 
 Storage_GetSettings().LoadFromFile();
 volume = Storage_GetSettingsFlag(FLAG_SETTINGS_VOLUME,1);

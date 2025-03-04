@@ -8,7 +8,7 @@ if(_menu==0){
 	draw_set_valign(fa_bottom);
 	draw_set_font(font_crypt_of_tomorrow);
 	draw_set_color(c_gray);
-	draw_text_transformed(320/2,476/2,"UNDERTALE (C) TOBY FOX 2015-"+string(date_get_year(date_current_datetime()))+"\nUNDERTALE ENGINE ULTRA"+ENGINE_VERSION+" BY TML&ZNM",1,1,0);
+	draw_text_transformed(320/2,476/2,"UNDERTALE (C) TOBY FOX 2015-"+string(date_get_year(date_current_datetime()))+"\nUNDERTALE ENGINE"+ENGINE_VERSION+" BY TML",1,1,0);
 	draw_set_halign(fa_left);
 	draw_set_valign(fa_top);
 }

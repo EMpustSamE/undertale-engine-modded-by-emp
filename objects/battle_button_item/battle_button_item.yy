@@ -33,10 +33,7 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":{
-    "name":"spr_battle_button_item",
-    "path":"sprites/spr_battle_button_item/spr_battle_button_item.yy",
-  },
+  "spriteId":null,
   "spriteMaskId":null,
   "visible":true,
 }

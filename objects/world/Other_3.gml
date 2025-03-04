@@ -5,3 +5,4 @@ Storage_Uninit();
 Encounter_Uninit();
 Input_Uninit();
 Demo_Uninit();
+Console_Uninit();
