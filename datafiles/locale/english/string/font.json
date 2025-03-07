@@ -27,5 +27,25 @@
     "font.battle.1.scale.x": "1",
     "font.battle.1.scale.y": "1",
     "font.battle.1.space.x": "0",
-    "font.battle.space.y": "0"
+    "font.battle.space.y": "0",
+
+    "font.sans.0": "comic_sans",
+    "font.sans.0.scale.x": "1",
+    "font.sans.0.scale.y": "1",
+    "font.sans.0.space.x": "0",
+    "font.sans.1": "comic_sans",
+    "font.sans.1.scale.x": "1",
+    "font.sans.1.scale.y": "1",
+    "font.sans.1.space.x": "0",
+    "font.sans.space.y": "0",
+
+    "font.papyrus.0": "papyrus",
+    "font.papyrus.0.scale.x": "1",
+    "font.papyrus.0.scale.y": "1",
+    "font.papyrus.0.space.x": "0",
+    "font.papyrus.1": "papyrus",
+    "font.papyrus.1.scale.x": "1",
+    "font.papyrus.1.scale.y": "1",
+    "font.papyrus.1.space.x": "0",
+    "font.papyrus.space.y": "0"
 }

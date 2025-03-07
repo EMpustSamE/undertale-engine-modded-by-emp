@@ -4,6 +4,6 @@ _frame_skipped = 0;
 volume = 1;
 global.blur_amount = 0;
 global.classic_ui = false;
-global.kr = 1;
+global.kr = false;
 global.debug = true;
 global.surface_gui = surface_create(640, 480);

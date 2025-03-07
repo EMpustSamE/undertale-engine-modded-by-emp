@@ -11,27 +11,28 @@ function ItemType() constructor {
     function GetName() {
         return _name;
     }
+	function GetPriceBuy() {
+		return _price_buy;
+	}
+	function GetPriceSell() {
+		return _price_sell;
+	}
+	function GetShopDescription() {
+		return _shop_description;
+	}
 
     function OnUse(inventory, index) {}
     function OnInfo(inventory, index) {}
     function OnDrop(inventory, index) {
-        var rand = irandom(18);
-        var sub = "* The {insert ITEM} was&  thrown away.";
-        switch (rand) {
-        case 0:
-            sub = "* You bid a quiet farewell&  to the {insert ITEM}.";
-            break;
-        case 1:
-            sub = "* You put the {insert ITEM}&  on the ground and gave it a&  little pat.";
-            break;
-        case 2:
-            sub = "* You threw the {insert ITEM}&  on the ground like the piece&  of trash it is.";
-            break;
-        case 3:
-            sub = "* You abandoned the &  {insert ITEM}.";
-            break;
-        }
-        Dialog_Add("{define `ITEM` `" + GetName() + "`}" + sub);
+        var rand=irandom(18);
+		var sub=0;
+		switch(rand){
+			case 0: sub=1; break;
+			case 1: sub=2; break;
+			case 2: sub=3; break;
+			case 3: sub=4; break;
+		}
+		Dialog_Add("{define `ITEM` `"+GetName()+"`}"+Lang_GetString("item.drop."+string(sub)));
         Dialog_Start();
 
         inventory.Remove(index);

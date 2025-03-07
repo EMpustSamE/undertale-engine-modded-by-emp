@@ -1,1 +1,1 @@
-draw_sprite_ext(spr_default,0,x,y,10,10,0,c_white,1);
+draw_sprite_ext(spr_default,0,x - 100,y - 150,10,10,0,c_white,1);

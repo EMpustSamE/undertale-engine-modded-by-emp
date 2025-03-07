@@ -7,12 +7,20 @@ case SHOP_STATE.ENCOUNTER:
     break;
 case SHOP_STATE.MENU:
     if (Input_IsPressed(INPUT.UP)) {
-        if (_pre_index <= 0) _pre_index = 3;
-        else _pre_index -= 1;
+        if (_pre_index <= 0){
+			_pre_index = 3;
+		}else{
+			_pre_index -= 1;
+		}
+		audio_play_sound(snd_menu_switch,0,false);
     }
     if (Input_IsPressed(INPUT.DOWN)) {
-        if (_pre_index >= 3) _pre_index = 0;
-        else _pre_index += 1;
+        if (_pre_index >= 3){
+			_pre_index = 0;
+		}else{
+			_pre_index += 1;
+		}
+		audio_play_sound(snd_menu_switch,0,false);
     }
 
     Anim_Create(id, "_index", ANIM_TWEEN.CUBIC, ANIM_EASE.OUT, _index, _pre_index - _index, 15 * !global.classic_ui, , , , 1);
@@ -22,17 +30,20 @@ case SHOP_STATE.MENU:
         case 0:
         default:
             Shop_GoState(SHOP_STATE.BUY);
+			audio_play_sound(snd_menu_switch,0,false);
             break;
         case 1:
             Shop_GoState(SHOP_STATE.SELL);
             _pre_index = (Item_GetInventoryItems().GetCount() == 0) ? 8 : 0;
             _index = _pre_index;
             _indexy = _pre_index;
+			audio_play_sound(snd_menu_switch,0,false);
             break;
         case 2:
             _index = 0;
             _pre_index = 0;
             Shop_GoState(SHOP_STATE.DIALOG);
+			audio_play_sound(snd_menu_switch,0,false);
             break;
         case 3:
             Shop_GoState(SHOP_STATE.EXIT);
@@ -62,6 +73,7 @@ case SHOP_STATE.BUY:
             } else _pre_index -= 1;
             Shop_RefreshTyper(false, false, false, true);
             Anim_Create(id, "_index", ANIM_TWEEN.CUBIC, ANIM_EASE.OUT, _index, _pre_index - _index, 15 * !global.classic_ui, , , , 1);
+			audio_play_sound(snd_menu_switch,0,false);
         }
         if (Input_IsPressed(INPUT.DOWN)) {
             _exit_index = 3;
@@ -69,6 +81,7 @@ case SHOP_STATE.BUY:
             else _pre_index += 1;
             Shop_RefreshTyper(false, false, false, true);
             Anim_Create(id, "_index", ANIM_TWEEN.CUBIC, ANIM_EASE.OUT, _index, _pre_index - _index, 15 * !global.classic_ui, , , , 1);
+			audio_play_sound(snd_menu_switch,0,false);
         }
         if (Input_IsPressed(INPUT.CONFIRM)) {
             if (_pre_index < 4) {
@@ -87,18 +100,21 @@ case SHOP_STATE.BUY:
                 Anim_Destroy(id);
                 Shop_GoState(SHOP_STATE.MENU);
             }
+			audio_play_sound(snd_menu_confirm,0,false);
         }
         if (Input_IsPressed(INPUT.CANCEL)) {
             Anim_Destroy(id);
             Shop_GoState(SHOP_STATE.MENU);
             _index = 0;
             _pre_index = 0;
+			audio_play_sound(snd_menu_cancel,0,false);
         }
         break;
     case 1:
         if (Input_IsPressed(INPUT.UP) || Input_IsPressed(INPUT.DOWN)) {
             _pre_index_buy = 1 - _pre_index_buy;
             Anim_Create(id, "_index_buy", ANIM_TWEEN.CUBIC, ANIM_EASE.OUT, _index_buy, _pre_index_buy - _index_buy, 15 * !global.classic_ui, , , , 1);
+			audio_play_sound(snd_menu_switch,0,false);
         }
         if (Input_IsPressed(INPUT.CONFIRM)) {
             if (_index_buy == 0) {
@@ -115,6 +131,7 @@ case SHOP_STATE.BUY:
                 _pre_index_buy = 0;
                 _index_buy = 0;
             }
+			audio_play_sound(snd_menu_confirm,0,false);
         }
         if (Input_IsPressed(INPUT.CANCEL)) {
             Anim_Destroy(id);
@@ -122,6 +139,7 @@ case SHOP_STATE.BUY:
             Shop_RefreshTyper(false, true, false, false);
             _index_buy = 0;
             _pre_index_buy = 0;
+			audio_play_sound(snd_menu_cancel,0,false);
         }
     }
     break;
@@ -137,6 +155,7 @@ case SHOP_STATE.SELL:
                     if (_pre_index == 8) _pre_index = (NUM % 2 == 0) ? NUM - 2 : NUM - 1;
                     else if (_pre_index >= 2) _pre_index -= 2;
                     Anim_Create(id, "_indexy", ANIM_TWEEN.CUBIC, ANIM_EASE.OUT, _indexy, (_pre_index - abs(_pre_index % 2)) div 2 - _indexy, 15 * !global.classic_ui, , , , 1);
+					audio_play_sound(snd_menu_switch,0,false);
                 }
                 if (Input_IsPressed(INPUT.DOWN)) {
                     if ((NUM - 1 - _pre_index) >= 2) _pre_index += 2;
@@ -144,6 +163,7 @@ case SHOP_STATE.SELL:
                         _pre_index = 8;
                     }
                     Anim_Create(id, "_indexy", ANIM_TWEEN.CUBIC, ANIM_EASE.OUT, _indexy, (_pre_index - abs(_pre_index % 2)) div 2 - _indexy, 15 * !global.classic_ui, , , , 1);
+					audio_play_sound(snd_menu_switch,0,false);
                 }
                 if (Input_IsPressed(INPUT.LEFT) || Input_IsPressed(INPUT.RIGHT)) {
                     var INDEX = 2 * (_pre_index div 2) + (1 - _pre_index mod 2);
@@ -161,12 +181,14 @@ case SHOP_STATE.SELL:
                         _index = 1;
                         _pre_index = 1;
                     }
+					audio_play_sound(snd_menu_confirm,0,false);
                 }
                 if (Input_IsPressed(INPUT.CANCEL)) {
                     Shop_GoState(SHOP_STATE.MENU);
                     Anim_Destroy(id);
                     _index = 1;
                     _pre_index = 1;
+					audio_play_sound(snd_menu_cancel,0,false);
                 }
                 break;
             case 1:
@@ -186,12 +208,14 @@ case SHOP_STATE.SELL:
                     _index_sell = 0;
                     _choice_state = 0;
                     Shop_RefreshTyper();
+					audio_play_sound(snd_menu_confirm,0,false);
                 }
                 if (Input_IsPressed(INPUT.CANCEL)) {
                     _index = abs(_pre_index % 2);
                     _indexy = (_pre_index - abs(_pre_index % 2)) div 2;
                     _choice_state = 0;
                     Shop_RefreshTyper();
+					audio_play_sound(snd_menu_cancel,0,false);
                 }
                 break;
             }
@@ -201,6 +225,7 @@ case SHOP_STATE.SELL:
                 _pre_index = 1;
                 _index = 1;
             }
+			audio_play_sound(snd_menu_confirm,0,false);
         }
     } else {
         if (_dialog == false) {
@@ -219,11 +244,13 @@ case SHOP_STATE.DIALOG:
             if (_pre_index <= 0) _pre_index = 4;
             else _pre_index -= 1;
             Anim_Create(id, "_index", ANIM_TWEEN.CUBIC, ANIM_EASE.OUT, _index, _pre_index - _index, 15 * !global.classic_ui, , , , 1);
+			audio_play_sound(snd_menu_switch,0,false);
         }
         if (Input_IsPressed(INPUT.DOWN)) {
             if (_pre_index >= 4) _pre_index = 0;
             else _pre_index += 1;
             Anim_Create(id, "_index", ANIM_TWEEN.CUBIC, ANIM_EASE.OUT, _index, _pre_index - _index, 15 * !global.classic_ui, , , , 1);
+			audio_play_sound(snd_menu_switch,0,false);
         }
         if (Input_IsPressed(INPUT.CONFIRM)) {
             Anim_Destroy(id);
@@ -235,12 +262,14 @@ case SHOP_STATE.DIALOG:
                 _pre_index = 2;
                 _index = 2;
             }
+			audio_play_sound(snd_menu_confirm,0,false);
         }
         if (Input_IsPressed(INPUT.CANCEL)) {
             Anim_Destroy(id);
             Shop_GoState(SHOP_STATE.MENU);
             _pre_index = 2;
             _index = 2;
+			audio_play_sound(snd_menu_cancel,0,false);
         }
     } else {
         if (instance_exists(_typer_left)) {
