@@ -39,8 +39,6 @@ instance_create_depth(0,0,0,obj_debug);
 
 application_surface_draw_enable(false);
 
-//Border_SetEnabled(true);
-
 show_debug_message("UNDERTALE by Toby Fox");
 show_debug_message("UNDERTALE Engine by TML");
 show_debug_message("UNDERTALE Engine Ultra by znm");
@@ -50,9 +48,7 @@ show_debug_message("Game Name: "+GAME_NAME);
 show_debug_message("Game Author: "+GAME_AUTHOR);
 show_debug_message("Game Version: "+GAME_VERSION);
 
-if(global.debug){
-	show_debug_overlay(true);
-}
+instance_create_depth(0,0,0,mobile_controller);
 
 Storage_GetSettings().LoadFromFile();
 volume = Storage_GetSettingsFlag(FLAG_SETTINGS_VOLUME,1);

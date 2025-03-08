@@ -28,7 +28,7 @@ function Console_ParseCmd() {
 								if(Console_IsMacroDefined(cmd)){
 									cmd=Console_GetMacro(cmd);
 								}else{
-									Console_OutputLine("Undefined macro \""+cmd+"\"!");
+									show_debug_message("Undefined macro \""+cmd+"\"!");
 									return false;
 								}
 							}

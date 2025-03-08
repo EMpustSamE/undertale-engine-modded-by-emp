@@ -16,9 +16,10 @@ ds_map_add(_map_macro,"FONT.PAPYRUS",4);
 ds_map_add(_map_macro,"VOICE.NULL",-1);
 ds_map_add(_map_macro,"VOICE.DEFAULT",0);
 ds_map_add(_map_macro,"VOICE.TYPER",1);
-ds_map_add(_map_macro,"VOICE.TORIEL",2);
-ds_map_add(_map_macro,"VOICE.SANS",3);
-ds_map_add(_map_macro,"VOICE.PAPYRUS",4);
+ds_map_add(_map_macro,"VOICE.FLOWEY",2);
+ds_map_add(_map_macro,"VOICE.TORIEL",3);
+ds_map_add(_map_macro,"VOICE.SANS",4);
+ds_map_add(_map_macro,"VOICE.PAPYRUS",5);
 
 _group_font[0,0]=Lang_GetFont(Lang_GetString("font.dialog.0"));
 _group_font_scale_x[0,0]=real(Lang_GetString("font.dialog.0.scale.x"));
@@ -72,8 +73,9 @@ _group_font_space_y[4]=real(Lang_GetString("font.papyrus.space.y"));
 
 _group_voice[0,0]=snd_text_voice_default;
 _group_voice[1,0]=snd_text_voice_typer;
-_group_voice[2,0]=snd_text_voice_toriel;
-_group_voice[3,0]=snd_text_voice_sans;
-_group_voice[4,0]=snd_text_voice_papyrus;
+_group_voice[2,0]=snd_text_voice_flowey;
+_group_voice[3,0]=snd_text_voice_toriel;
+_group_voice[4,0]=snd_text_voice_sans;
+_group_voice[5,0]=snd_text_voice_papyrus;
 
 _group_face[0]=face;

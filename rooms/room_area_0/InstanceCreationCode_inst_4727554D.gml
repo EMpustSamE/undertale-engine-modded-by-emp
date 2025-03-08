@@ -1,2 +1,1 @@
-//text="* (This is a box.){pause}{clear}* (You can put an item&  inside or take an item&  out.){pause}{clear}* (The same box will appear&  later,{sleep 10} so don't worry&  about coming back.){pause}{clear}* (Sincerely,{sleep 10} a box lover.){pause}{end}";
-text = "{font FONT.SANS}{voice VOICE.SANS}* sans font.{pause}{clear}{font FONT.PAPYRUS}{voice VOICE.PAPYRUS}PAPYRUS FONT."
+text="* (This is a box.){pause}{clear}* (You can put an item&  inside or take an item&  out.){pause}{clear}* (The same box will appear&  later,{sleep 10} so don't worry&  about coming back.){pause}{clear}* (Sincerely,{sleep 10} a box lover.){pause}{end}";

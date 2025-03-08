@@ -144,7 +144,6 @@ function Event_Step() {
         
         if (!instance_exists(ui_dialog) && !_event.completed) {
             var _choice = Player_GetTextTyperChoice();
-            // 传递 _key 和 _choice
             _event.callback(_event.event_key, _choice);
             _event.completed = true;
             _queue.index++;

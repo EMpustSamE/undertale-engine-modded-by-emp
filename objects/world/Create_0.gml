@@ -7,3 +7,5 @@ global.classic_ui = false;
 global.kr = false;
 global.debug = true;
 global.surface_gui = surface_create(640, 480);
+global.event_overworld = "event_overworld";
+global.event_phone = "event_phone";

@@ -2,6 +2,8 @@
 // OnDrop already has a default implementation.
 function ItemType() constructor {
     _name = "";
+	_name_short = "";
+	_name_short_serious = "";
     _info = "";
     _price_buy = 0;
     _price_sell = 0;
@@ -10,6 +12,12 @@ function ItemType() constructor {
     _drop = "";
     function GetName() {
         return _name;
+    }
+	function GetNameShort() {
+        return _name_short;
+    }
+	function GetNameShortSerious() {
+        return _name_short_serious;
     }
 	function GetPriceBuy() {
 		return _price_buy;
@@ -44,10 +52,18 @@ function ItemType() constructor {
 // and OnInfo to show the localized dialog "item.key.info"
 function ItemTypeSimple(keyId) : ItemType() constructor {
     self.nameKey=$"item.{keyId}.name";
+	self.nameShortKey=$"item.{keyId}.name.short";
+	self.nameShortSeriousKey=$"item.{keyId}.name.short.serious";
 	self.infoTextKey=$"item.{keyId}.info";
 	
 	function GetName(){
 		return Lang_GetString(nameKey,nameKey);
+	}
+	function GetNameShort(){
+		return Lang_GetString(nameShortKey,nameShortKey);
+	}
+	function GetNameShortSerious(){
+		return Lang_GetString(nameShortSeriousKey,nameShortSeriousKey);
 	}
 	function OnInfo(inventory,index){
 		Dialog_Add(Lang_GetString(infoTextKey,infoTextKey));

@@ -25,7 +25,7 @@ function Console_ProcessCmd() {
 					return result;
 				}else{
 					if(!silent){
-						Console_OutputLine("Unknown command or script \""+cmd[|0]+"\"!");
+						show_debug_message("Unknown command or script \""+cmd[|0]+"\"!");
 					}
 					return false;
 				}
@@ -37,12 +37,12 @@ function Console_ProcessCmd() {
 			case "echo":
 				if(!(is_real(cmd[|1])||is_string(cmd[|1]))){
 					if(!silent){
-						Console_OutputLine("Echo value must be a real or a string!");
+						show_debug_message("Echo value must be a real or a string!");
 					}
 					return false;
 				}else{
 					if(!silent){
-						Console_OutputLine(string(cmd[|1]));
+						show_debug_message(string(cmd[|1]));
 					}
 					return true;
 				}
@@ -50,19 +50,19 @@ function Console_ProcessCmd() {
 			case "macro_define": case "define":
 				if(!is_string(cmd[|1])){
 					if(!silent){
-						Console_OutputLine("Macro name must be a string!");
+						show_debug_message("Macro name must be a string!");
 					}
 					return false;
 				}
 				if(Console_IsRealString(cmd[|1])){
 					if(!silent){
-						Console_OutputLine("Macro name is invalid!");
+						show_debug_message("Macro name is invalid!");
 					}
 					return false;
 				}
 				if(!(is_real(cmd[|2])||is_string(cmd[|2]))){
 					if(!silent){
-						Console_OutputLine("Macro value must be a real or a string!");
+						show_debug_message("Macro value must be a real or a string!");
 					}
 					return false;
 				}
@@ -73,12 +73,12 @@ function Console_ProcessCmd() {
 				var result=Console_DefineMacro(cmd[|1],cmd[|2]);
 				if(result){
 					if(!silent){
-						Console_OutputLine("\""+cmd[|1]+"\" -> "+(is_string(cmd[|2]) ? "\"" : "")+string(cmd[|2])+(is_string(cmd[|2]) ? "\"" : ""));
+						show_debug_message("\""+cmd[|1]+"\" -> "+(is_string(cmd[|2]) ? "\"" : "")+string(cmd[|2])+(is_string(cmd[|2]) ? "\"" : ""));
 					}
 					return true;
 				}else{
 					if(!silent){
-						Console_OutputLine("Unknown error!");
+						show_debug_message("Unknown error!");
 					}
 					return false;
 				}
@@ -86,19 +86,19 @@ function Console_ProcessCmd() {
 			case "macro_undefine": case "undefine":
 				if(!is_string(cmd[|1])){
 					if(!silent){
-						Console_OutputLine("Macro name must be a string!");
+						show_debug_message("Macro name must be a string!");
 					}
 					return false;
 				}
 				if(Console_IsRealString(cmd[|1])){
 					if(!silent){
-						Console_OutputLine("Macro name is invalid!");
+						show_debug_message("Macro name is invalid!");
 					}
 					return false;
 				}
 				if(!Console_IsMacroDefined(cmd[|1])){
 					if(!silent){
-						Console_OutputLine("Macro \""+cmd[|1]+"\" is not defined yet!");
+						show_debug_message("Macro \""+cmd[|1]+"\" is not defined yet!");
 					}
 					return false;
 				}
@@ -106,12 +106,12 @@ function Console_ProcessCmd() {
 				var result=Console_UndefineMacro(cmd[|1]);
 				if(result){
 					if(!silent){
-						Console_OutputLine("\""+cmd[|1]+"\" -> UNDEFINED");
+						show_debug_message("\""+cmd[|1]+"\" -> UNDEFINED");
 					}
 					return true;
 				}else{
 					if(!silent){
-						Console_OutputLine("Unknown error!");
+						show_debug_message("Unknown error!");
 					}
 					return false;
 				}
@@ -119,7 +119,7 @@ function Console_ProcessCmd() {
 			case "macro_undefine_all": case "undefine_all":
 				Console_UndefineAllMacro();
 				if(!silent){
-					Console_OutputLine("ALL -> UNDEFINED");
+					show_debug_message("ALL -> UNDEFINED");
 				}
 				return true;
 			
@@ -134,7 +134,7 @@ function Console_ProcessCmd() {
 			case "room_goto":
 				if(!(is_real(cmd[|1])||is_string(cmd[|1]))){
 					if(!silent){
-						Console_OutputLine("Target room must be a real or a string!");
+						show_debug_message("Target room must be a real or a string!");
 					}
 					return false;
 				}
@@ -147,12 +147,12 @@ function Console_ProcessCmd() {
 				if(room_exists(target)){
 					room_goto(target);
 					if(!silent){
-						Console_OutputLine("Room goto succeeded.");
+						show_debug_message("Room goto succeeded.");
 					}
 					return true;
 				}else{
 					if(!silent){
-						Console_OutputLine("Room "+(is_real(cmd[|1]) ? string(cmd[|1]) : "with name \""+cmd[|1]+"\"")+" doesn't exists!");
+						show_debug_message("Room "+(is_real(cmd[|1]) ? string(cmd[|1]) : "with name \""+cmd[|1]+"\"")+" doesn't exists!");
 					}
 					return false;
 				}
@@ -160,14 +160,14 @@ function Console_ProcessCmd() {
 			case "room_restart":
 				room_restart();
 				if(!silent){
-					Console_OutputLine("Room restart succeeded.");
+					show_debug_message("Room restart succeeded.");
 				}
 				return true;
 			
 			case "script_execute":
 				if(!(is_real(cmd[|1])||is_string(cmd[|1]))){
 					if(!silent){
-						Console_OutputLine("Target script must be a real or a string!");
+						show_debug_message("Target script must be a real or a string!");
 					}
 					return false;
 				}
@@ -230,12 +230,12 @@ function Console_ProcessCmd() {
 							break;
 					}
 					if(!silent){
-						Console_OutputLine("Return value: "+(is_string(rv) ? "\"" : "")+string(rv)+(is_string(rv) ? "\"" : ""));
+						show_debug_message("Return value: "+(is_string(rv) ? "\"" : "")+string(rv)+(is_string(rv) ? "\"" : ""));
 					}
 					return rv;
 				}else{
 					if(!silent){
-						Console_OutputLine("Script "+(is_real(cmd[|1]) ? string(cmd[|1]) : "with name \""+cmd[|1]+"\"")+" doesn't exists!");
+						show_debug_message("Script "+(is_real(cmd[|1]) ? string(cmd[|1]) : "with name \""+cmd[|1]+"\"")+" doesn't exists!");
 					}
 					return false;
 				}
