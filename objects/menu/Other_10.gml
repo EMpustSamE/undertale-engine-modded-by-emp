@@ -11,6 +11,8 @@ if(_menu==0){
 		_inst_begin.text=_prefix+"{color `white`}" + Lang_GetString("menu.begin");
 		_inst_settings=instance_create_depth(170/2,384/2,0,text_typer);
 		_inst_settings.text=_prefix+"{color `white`}" + Lang_GetString("menu.settings");
+		_inst_credits=instance_create_depth(170/2,424/2,0,text_typer);
+		_inst_credits.text=_prefix+Lang_GetString("menu.credits");
 		with(text_typer){
 			event_user(15);
 		}
@@ -43,6 +45,9 @@ if(_menu==0){
 		_inst_settings=instance_create_depth(264/2,250/2,0,text_typer);
 		_inst_settings.text=_prefix+Lang_GetString("menu.settings");
 		_inst_settings.override_color_text_enabled=true;
+		_inst_credits=instance_create_depth(264/2,290/2,0,text_typer);
+		_inst_credits.text=_prefix+Lang_GetString("menu.credits");
+		_inst_credits.override_color_text_enabled=true;
 		event_user(2);
 		
 	}
@@ -55,6 +60,9 @@ if(_menu==0){
 	}
 	if(instance_exists(_inst_settings)){
 		instance_destroy(_inst_settings);
+	}
+	if(instance_exists(_inst_credits)){
+		instance_destroy(_inst_credits);
 	}
 	if(instance_exists(_inst_name)){
 		instance_destroy(_inst_name);

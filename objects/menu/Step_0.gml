@@ -1,22 +1,24 @@
 if (_menu == 0) {
     if (_mode == 0) {
         if (Input_IsPressed(INPUT.DOWN)) {
-            if (_choice < 1) {
-                _choice = 1;
+            if (_choice < 2) {
+                _choice += 1;
                 event_user(2);
             }
         } else if (Input_IsPressed(INPUT.UP)) {
             if (_choice > 0) {
-                _choice = 0;
+                _choice -= 1;
                 event_user(2);
             }
         } else if (Input_IsPressed(INPUT.CONFIRM)) {
             if (_choice == 0) {
                 _menu = 1;
                 event_user(0);
-            } else {
+            } else if (_choice == 1) {
                 room_goto(room_settings);
-            }
+            } else {
+				room_goto(room_credits);
+			}
         }
     } else {
         if (Input_IsPressed(INPUT.LEFT)) {
@@ -30,15 +32,21 @@ if (_menu == 0) {
                 event_user(2);
             }
         } else if (Input_IsPressed(INPUT.DOWN)) {
-            if (_choice != 2) {
+            if (_choice == 0 || _choice == 1) {
                 _choice = 2;
                 event_user(2);
-            }
+            } else {
+				_choice = 3;
+				event_user(2);
+			}
         } else if (Input_IsPressed(INPUT.UP)) {
             if (_choice == 2) {
                 _choice = 0;
                 event_user(2);
-            }
+            } else {
+				_choice = 2;
+				event_user(2);
+			}
         } else if (Input_IsPressed(INPUT.CONFIRM)) {
             if (_choice == 0) {
                 Storage_LoadGame();
@@ -60,7 +68,9 @@ if (_menu == 0) {
                 event_user(0);
             } else if (_choice == 2) {
                 room_goto(room_settings);
-            }
+            } else if (_choice == 3) {
+				room_goto(room_credits);
+			}
         }
     }
 } else if (_menu == 1) {

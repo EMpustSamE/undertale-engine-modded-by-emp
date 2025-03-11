@@ -19,3 +19,4 @@ _moveable_warp=true;
 _moveable_shop=true;
 _moveable_encounter=true;
 _moveable_box=true;
+_moveable_sit=true;

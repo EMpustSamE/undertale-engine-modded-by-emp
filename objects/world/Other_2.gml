@@ -48,7 +48,9 @@ show_debug_message("Game Name: "+GAME_NAME);
 show_debug_message("Game Author: "+GAME_AUTHOR);
 show_debug_message("Game Version: "+GAME_VERSION);
 
-instance_create_depth(0,0,0,mobile_controller);
+if(os_type == os_android || os_type == os_ios || os_type == os_winphone){
+	instance_create_depth(0,0,0,mobile_controller);
+}
 
 Storage_GetSettings().LoadFromFile();
 volume = Storage_GetSettingsFlag(FLAG_SETTINGS_VOLUME,1);
