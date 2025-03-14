@@ -34,8 +34,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_char_frisk_down",
-    "path":"sprites/spr_char_frisk_down/spr_char_frisk_down.yy",
+    "name":"spr_char_frisk_sit",
+    "path":"sprites/spr_char_frisk_sit/spr_char_frisk_sit.yy",
   },
   "spriteMaskId":null,
   "visible":true,
