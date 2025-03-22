@@ -15,11 +15,23 @@ if(_skippable&&!_paused&&Input_IsPressed(INPUT.CANCEL)){
 	_char_frame_remain=0;
 }
 if(_choice!=-1){
-	if((_choice==0&&Input_IsPressed(INPUT.RIGHT))||(_choice==1&&Input_IsPressed(INPUT.LEFT))){
-		_choice=!_choice;
-		Anim_Create(id,"_choice_soul_x",ANIM_TWEEN.CUBIC,ANIM_EASE.OUT,_choice_soul_x,_choice_x[_choice] - _choice_soul_x,15 * !global.classic_ui);
-		Anim_Create(id,"_choice_soul_y",ANIM_TWEEN.CUBIC,ANIM_EASE.OUT,_choice_soul_y,_choice_y[_choice] - _choice_soul_y,15 * !global.classic_ui);
-		audio_play_sound(snd_menu_switch,0,false);
+	if(_choice_switch_direction = 0){
+		_choice_switch_key = [INPUT.LEFT,INPUT.RIGHT];
+	}
+	if(_choice_switch_direction = 1){
+		_choice_switch_key = [INPUT.UP,INPUT.DOWN];
+	}
+	if(Input_IsPressed(_choice_switch_key[0])){
+		_choice=(_choice=0 ? array_length(_choice_x)-1 : _choice-1);
+		if(_choice_switch_sound = 1)audio_play_sound(snd_menu_switch,0,false);
+		Anim_Create(id,"_choice_soul_x",ANIM_TWEEN.CUBIC,ANIM_EASE.OUT,_choice_soul_x,_choice_x[_choice] - _choice_soul_x,15 * global.classic_ui);
+		Anim_Create(id,"_choice_soul_y",ANIM_TWEEN.CUBIC,ANIM_EASE.OUT,_choice_soul_y,_choice_y[_choice] - _choice_soul_y,15 * global.classic_ui);
+	}
+	if(Input_IsPressed(_choice_switch_key[1])){
+		_choice=(_choice=array_length(_choice_x)-1 ? 0 : _choice+1);
+		if(_choice_switch_sound = 1)audio_play_sound(snd_menu_switch,0,false);
+		Anim_Create(id,"_choice_soul_x",ANIM_TWEEN.CUBIC,ANIM_EASE.OUT,_choice_soul_x,_choice_x[_choice] - _choice_soul_x,15 * global.classic_ui);
+		Anim_Create(id,"_choice_soul_y",ANIM_TWEEN.CUBIC,ANIM_EASE.OUT,_choice_soul_y,_choice_y[_choice] - _choice_soul_y,15 * global.classic_ui);
 	}
 	if(Input_IsPressed(INPUT.CONFIRM)){
 		if(is_string(_choice_macro)){
@@ -28,7 +40,7 @@ if(_choice!=-1){
 		}
 		Storage_SetTempFlag(FLAG_TEMP_TEXT_TYPER_CHOICE,_choice);
 		_choice=-1;
-		audio_play_sound(snd_menu_confirm,0,false);
+		if(_choice_switch_sound = 1)audio_play_sound(snd_menu_confirm,0,false);
 	}
 }
 

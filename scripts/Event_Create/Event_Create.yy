@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"Event_Create",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Event_Create",
+  "parent":{
+    "name":"Event",
+    "path":"folders/Scripts/Event.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

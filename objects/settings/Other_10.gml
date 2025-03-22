@@ -34,18 +34,18 @@ with(text_typer){
 }
 
 #region left texts text
-obj_title.text = _pre + "{outline true}{align 1}Settings";
-obj_language.text = _pre + "Language";
-obj_volume.text = _pre + "Volume";
-obj_border.text = _pre + "Border";
-obj_fullscreen.text = _pre + "Fullscreen";
-obj_classic_ui.text = _pre + "Classic UI";
-obj_back.text = _pre + "Save \\& Back";
+obj_title.text = _pre + "{outline true}{align 1}" + Lang_GetString("settings.title");
+obj_language.text = _pre + Lang_GetString("settings.language");
+obj_volume.text = _pre + Lang_GetString("settings.volume");
+obj_border.text = _pre + Lang_GetString("settings.border");
+obj_fullscreen.text = _pre + Lang_GetString("settings.fullscreen");
+obj_classic_ui.text = _pre + Lang_GetString("settings.classic");
+obj_back.text = _pre + Lang_GetString("settings.back");
 #endregion
 
 #region right texts text
-language_index.text = _pre + "{align 2}English";
+language_index.text = _pre + "{align 2}" + Lang_GetString("settings.language.index");
 border_index.text = _pre + "{align 2}" + Border_GetName(_border);
-fullscreen_index.text = _pre + "{align 2}" + (_fullscreen ? "On" : "Off");
-classic_ui_index.text = _pre + "{align 2}" + (_classic_ui ? "On" : "Off");
+fullscreen_index.text = _pre + "{align 2}" + ((os_type == os_android || os_type == os_ios || os_type == os_winphone) ? Lang_GetString("settings.na") : (_fullscreen ? Lang_GetString("settings.on") : Lang_GetString("settings.off")));
+classic_ui_index.text = _pre + "{align 2}" + ((os_type == os_android || os_type == os_ios || os_type == os_winphone) ? Lang_GetString("settings.na") : (_classic_ui ? Lang_GetString("settings.on") : Lang_GetString("settings.off")));
 #endregion

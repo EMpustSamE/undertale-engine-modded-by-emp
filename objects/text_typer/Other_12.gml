@@ -374,19 +374,17 @@ case "insert":
     break;
 
 case "choice":
-    if (is_real(cmd[| 1])) {
-        if (cmd[| 1] >= 0 && cmd[| 1] <= 1) {
-            draw_set_font(_group_font[_font, 0]);
-            _choice_x[cmd[| 1]] = _char_x - string_width(" ") * _group_font_scale_x[_font, 0] * _scale_x;
-            _choice_y[cmd[| 1]] = _char_y + string_height(" ") / 2 * _group_font_scale_y[_font, 0] * _scale_y;
-			_choice_soul_x = _choice_x[0];
-			_choice_soul_y = _choice_y[0];
-        }
-    } else if (is_string(cmd[| 1]) || is_undefined(cmd[| 1])) {
-        _choice_macro = cmd[| 1];
-        _choice = 0;
-    }
-    break;
+		if(is_real(cmd[|1])){
+			if(cmd[|1]>=0){
+				draw_set_font(_group_font[_font,0]);
+				_choice_x[cmd[|1]]=_char_x-string_width(" ")*_group_font_scale_x[_font,0]*_scale_x;
+				_choice_y[cmd[|1]]=_char_y+string_height(" ")/2*_group_font_scale_y[_font,0]*_scale_y;
+			}
+		}else if(is_string(cmd[|1])||is_undefined(cmd[|1])){
+			_choice_macro=cmd[|1];
+			_choice=0;
+		}
+		break;
 
 case "if":
     var target_0 = cmd[| 1];

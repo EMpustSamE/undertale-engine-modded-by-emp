@@ -26,10 +26,12 @@ if(Input_IsPressed(INPUT.LEFT)){
 			}
 			break;
 		case 3:
-			if(_fullscreen){
-				_fullscreen = false;
-				window_set_fullscreen(_fullscreen);
-				audio_play_sound(snd_menu_confirm,0,false);
+			if(!(os_type == os_android || os_type == os_ios || os_type == os_winphone)){
+				if(_fullscreen){
+					_fullscreen = false;
+					window_set_fullscreen(_fullscreen);
+					audio_play_sound(snd_menu_confirm,0,false);
+				}
 			}
 			break;
 		case 4:
@@ -59,10 +61,12 @@ if(Input_IsPressed(INPUT.RIGHT)){
 			}
 			break;
 		case 3:
-			if(!_fullscreen){
-				_fullscreen = true;
-				window_set_fullscreen(_fullscreen);
-				audio_play_sound(snd_menu_confirm,0,false);
+			if(!(os_type == os_android || os_type == os_ios || os_type == os_winphone)){
+				if(!_fullscreen){
+					_fullscreen = true;
+					window_set_fullscreen(_fullscreen);
+					audio_play_sound(snd_menu_confirm,0,false);
+				}
 			}
 			break;
 		case 4:

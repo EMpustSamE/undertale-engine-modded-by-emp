@@ -26,7 +26,7 @@ function GetColorFromString() {
 		case "gray_light":
 			color=c_ltgray;
 			break;
-			case "rainbow":
+		case "rainbow":
 			color=c_rainbow;
 			break;
 	}

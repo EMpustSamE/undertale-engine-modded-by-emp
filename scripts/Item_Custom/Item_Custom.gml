@@ -31,9 +31,9 @@ function Item_Custom(){
 		#macro ITEM_FADED_RIBBON "faded_ribbon"
 		itemTypes.Register(ITEM_FADED_RIBBON, new CustomItem_FadedRibbon());
 		
-		// See CustomItem_PhoneTML for phone item example.
-		#macro ITEM_PHONE_TML "phone_tml"
-		itemTypes.Register(ITEM_PHONE_TML, new CustomItem_Phone_TML());
+		// See CustomItem_PhoneToriel for phone item example.
+		#macro ITEM_PHONE_TORIEL "phone_toriel"
+		itemTypes.Register(ITEM_PHONE_TORIEL, new CustomItem_Phone_Toriel());
 	
 	}
 	

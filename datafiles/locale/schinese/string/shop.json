@@ -1,0 +1,8 @@
+{
+    "shop.menu": "  Buy&  Sell&  Talk&  Exit",
+    "shop.buy": "Buy it for&{insert GOLD}G?& Yes& No",
+    "shop.sell": "Sell it for {insert GOLD}G?&&",
+    "shop.sell.confirm": "   Yes                 No",
+    "shop.exit": "Exit",
+    "shop.exit.white": "{color `white`}Exit"
+}

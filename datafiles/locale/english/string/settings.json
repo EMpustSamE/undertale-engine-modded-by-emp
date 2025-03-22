@@ -1,0 +1,18 @@
+{
+    "settings.title": "Settings",
+
+    "settings.language": "Language",
+    "settings.volume": "Volume",
+    "settings.border": "Border",
+    "settings.fullscreen": "Fullscreen",
+    "settings.classic": "Classic UI",
+    "settings.back": "Save \\& Back",
+
+    "settings.na": "{color `red`}N/A",
+    "settings.language.index": "English",
+    "settings.border.none": "None",
+    "settings.border.simple": "Simple",
+
+    "settings.on": "On",
+    "settings.off": "Off"
+}

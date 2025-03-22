@@ -18,7 +18,7 @@ function Player_CustomInitialData(){
 	items.Add(ITEM_DICE);
 	items.Add(ITEM_DICE);
 	var phones=Item_GetInventoryPhones();
-	phones.Add(ITEM_PHONE_TML);
+	phones.Add(ITEM_PHONE_TORIEL);
 	
 	Player_SetItemWeapon(ITEM_STICK);
 	Player_SetItemArmor(ITEM_BANDAGE);

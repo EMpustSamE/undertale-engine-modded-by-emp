@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"DelayFunction",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"DelayFunction",
+  "parent":{
+    "name":"Event",
+    "path":"folders/Scripts/Event.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
