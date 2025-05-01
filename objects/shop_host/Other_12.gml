@@ -1,2 +1,2 @@
-/// @description Buy
-// You can write your code in this editor
+///@desc Menu Start
+//CC_Add("menu start")

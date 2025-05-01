@@ -1,303 +1,393 @@
-switch (_state) {
-case SHOP_STATE.ENCOUNTER:
-    if (_dialog == true && !instance_exists(shop_dialog_typer)) {
-        _dialog = false;
-        Shop_GoState(SHOP_STATE.MENU);
-    }
-    break;
-case SHOP_STATE.MENU:
-    if (Input_IsPressed(INPUT.UP)) {
-        if (_pre_index <= 0){
-			_pre_index = 3;
-		}else{
-			_pre_index -= 1;
+shop_state = Shop_GetState()
+shop_menu = Shop_GetMenu()
+shop_menu_buy = Shop_GetMenuBuy()
+shop_menu_sell = Shop_GetMenuSell()
+if(shop_state = SHOP_STATE.MENU){
+	if(shop_menu = SHOP_MENU.MENU){
+		if(Input_IsPressed(INPUT.DOWN)){
+			_menu_choice = (_menu_choice > 2 ? 0 : _menu_choice + 1);
+			Shop_CallHostEvent(SHOP_HOST_EVENT.MENU_CHOICE_SWITCH);
 		}
-		audio_play_sound(snd_menu_switch,0,false);
-    }
-    if (Input_IsPressed(INPUT.DOWN)) {
-        if (_pre_index >= 3){
-			_pre_index = 0;
-		}else{
-			_pre_index += 1;
+		if(Input_IsPressed(INPUT.UP)){
+			_menu_choice = (_menu_choice < 1 ? 3 : _menu_choice - 1);
+			Shop_CallHostEvent(SHOP_HOST_EVENT.MENU_CHOICE_SWITCH);
 		}
-		audio_play_sound(snd_menu_switch,0,false);
-    }
-
-    Anim_Create(id, "_index", ANIM_TWEEN.CUBIC, ANIM_EASE.OUT, _index, _pre_index - _index, 15 * !global.classic_ui, , , , 1);
-    if (Input_IsPressed(INPUT.CONFIRM)) {
-        Anim_Destroy(id);
-        switch (_pre_index) {
-        case 0:
-        default:
-            Shop_GoState(SHOP_STATE.BUY);
-			audio_play_sound(snd_menu_switch,0,false);
-            break;
-        case 1:
-            Shop_GoState(SHOP_STATE.SELL);
-            _pre_index = (Item_GetInventoryItems().GetCount() == 0) ? 8 : 0;
-            _index = _pre_index;
-            _indexy = _pre_index;
-			audio_play_sound(snd_menu_switch,0,false);
-            break;
-        case 2:
-            _index = 0;
-            _pre_index = 0;
-            Shop_GoState(SHOP_STATE.DIALOG);
-			audio_play_sound(snd_menu_switch,0,false);
-            break;
-        case 3:
-            Shop_GoState(SHOP_STATE.EXIT);
-        }
-    }
-    break;
-case SHOP_STATE.BUY:
-    if (_index < 4) {
-        buy_info_inst_y -= min(buy_info__vspeedpeed, buy_info_inst_y - buy_info_y);
-        if (!instance_exists(_typer_info)) Shop_RefreshTyper(false, false, false, true);
-        _typer_info.y = buy_info_inst_y + height_text;
-    } else {
-        buy_info_inst_y += min(buy_info__vspeedpeed, border_y1 - buy_info_inst_y);
-        if (instance_exists(_typer_info)) {
-            instance_destroy(_typer_info);
-        }
-    }
-    switch (_choice_state) {
-    case 0:
-    case 2:
-    case 3:
-    default:
-        if (Input_IsPressed(INPUT.UP)) {
-            if (_pre_index <= 0) {
-                _pre_index = 4;
-                _exit_index = 0;
-            } else _pre_index -= 1;
-            Shop_RefreshTyper(false, false, false, true);
-            Anim_Create(id, "_index", ANIM_TWEEN.CUBIC, ANIM_EASE.OUT, _index, _pre_index - _index, 15 * !global.classic_ui, , , , 1);
-			audio_play_sound(snd_menu_switch,0,false);
-        }
-        if (Input_IsPressed(INPUT.DOWN)) {
-            _exit_index = 3;
-            if (_pre_index >= 4) _pre_index = 0;
-            else _pre_index += 1;
-            Shop_RefreshTyper(false, false, false, true);
-            Anim_Create(id, "_index", ANIM_TWEEN.CUBIC, ANIM_EASE.OUT, _index, _pre_index - _index, 15 * !global.classic_ui, , , , 1);
-			audio_play_sound(snd_menu_switch,0,false);
-        }
-        if (Input_IsPressed(INPUT.CONFIRM)) {
-            if (_pre_index < 4) {
-                var ITEM = Item_GetTypeManager().GetOrUndefined(_item[_pre_index]);
-                if (Item_GetInventoryItems().GetCount() < 8 && Storage_GetStaticFlag(FLAG_STATIC_GOLD) >= ITEM._price_buy) {
-                    _choice_state = 1;
-                } else if (Item_GetInventoryItems().GetCount() < 8 && Storage_GetStaticFlag(FLAG_STATIC_GOLD) < ITEM._price_buy) {
-                    _choice_state = 3;
-                } else if (Item_GetInventoryItems().GetCount() >= 8 && Storage_GetStaticFlag(FLAG_STATIC_GOLD) >= ITEM._price_buy) {
-                    _choice_state = 4;
-                }
-                Shop_RefreshTyper(false, true, false, false);
-            } else {
-                _index = 0;
-                _pre_index = 0;
-                Anim_Destroy(id);
-                Shop_GoState(SHOP_STATE.MENU);
-            }
-			audio_play_sound(snd_menu_confirm,0,false);
-        }
-        if (Input_IsPressed(INPUT.CANCEL)) {
-            Anim_Destroy(id);
-            Shop_GoState(SHOP_STATE.MENU);
-            _index = 0;
-            _pre_index = 0;
-			audio_play_sound(snd_menu_cancel,0,false);
-        }
-        break;
-    case 1:
-        if (Input_IsPressed(INPUT.UP) || Input_IsPressed(INPUT.DOWN)) {
-            _pre_index_buy = 1 - _pre_index_buy;
-            Anim_Create(id, "_index_buy", ANIM_TWEEN.CUBIC, ANIM_EASE.OUT, _index_buy, _pre_index_buy - _index_buy, 15 * !global.classic_ui, , , , 1);
-			audio_play_sound(snd_menu_switch,0,false);
-        }
-        if (Input_IsPressed(INPUT.CONFIRM)) {
-            if (_index_buy == 0) {
-                Anim_Destroy(id);
-                var ITEM = Item_GetTypeManager().GetOrUndefined(_item[_pre_index]);
-                Item_GetInventoryItems().Add(_item[_pre_index]);
-                Player_SetGold(Player_GetGold() - ITEM._price_buy);
-                _choice_state = 2;
-                Shop_RefreshTyper(false, true, true, false);
-                audio_play_sound(_snd_buy_item, 0, false);
-            } else {
-                _choice_state = 0;
-                Shop_RefreshTyper(false, true, false, false);
-                _pre_index_buy = 0;
-                _index_buy = 0;
-            }
-			audio_play_sound(snd_menu_confirm,0,false);
-        }
-        if (Input_IsPressed(INPUT.CANCEL)) {
-            Anim_Destroy(id);
-            _choice_state = 0;
-            Shop_RefreshTyper(false, true, false, false);
-            _index_buy = 0;
-            _pre_index_buy = 0;
-			audio_play_sound(snd_menu_cancel,0,false);
-        }
-    }
-    break;
-case SHOP_STATE.SELL:
-    if (_host.sold_available) {
-        var NUM = Item_GetInventoryItems().GetCount();
-        if (NUM > 0) {
-
-            switch (_choice_state) {
-            case 0:
-            default:
-                if (Input_IsPressed(INPUT.UP)) {
-                    if (_pre_index == 8) _pre_index = (NUM % 2 == 0) ? NUM - 2 : NUM - 1;
-                    else if (_pre_index >= 2) _pre_index -= 2;
-                    Anim_Create(id, "_indexy", ANIM_TWEEN.CUBIC, ANIM_EASE.OUT, _indexy, (_pre_index - abs(_pre_index % 2)) div 2 - _indexy, 15 * !global.classic_ui, , , , 1);
-					audio_play_sound(snd_menu_switch,0,false);
-                }
-                if (Input_IsPressed(INPUT.DOWN)) {
-                    if ((NUM - 1 - _pre_index) >= 2) _pre_index += 2;
-                    else if (_pre_index + 2 > (NUM - 1) && _pre_index % 2 == 0) {
-                        _pre_index = 8;
-                    }
-                    Anim_Create(id, "_indexy", ANIM_TWEEN.CUBIC, ANIM_EASE.OUT, _indexy, (_pre_index - abs(_pre_index % 2)) div 2 - _indexy, 15 * !global.classic_ui, , , , 1);
-					audio_play_sound(snd_menu_switch,0,false);
-                }
-                if (Input_IsPressed(INPUT.LEFT) || Input_IsPressed(INPUT.RIGHT)) {
-                    var INDEX = 2 * (_pre_index div 2) + (1 - _pre_index mod 2);
-                    if (_pre_index < 8 && INDEX < NUM) _pre_index = INDEX;
-                    Anim_Create(id, "_index", ANIM_TWEEN.CUBIC, ANIM_EASE.OUT, _index, abs(_pre_index % 2) - _index, 15 * !global.classic_ui, , , , 1);
-                }
-                if (Input_IsPressed(INPUT.CONFIRM)) {
-                    if (_pre_index < 8) {
-                        Anim_Destroy(id);
-                        _choice_state = 1;
-                        Shop_RefreshTyper();
-                    } else {
-                        Shop_GoState(SHOP_STATE.MENU);
-                        Anim_Destroy(id);
-                        _index = 1;
-                        _pre_index = 1;
-                    }
-					audio_play_sound(snd_menu_confirm,0,false);
-                }
-                if (Input_IsPressed(INPUT.CANCEL)) {
-                    Shop_GoState(SHOP_STATE.MENU);
-                    Anim_Destroy(id);
-                    _index = 1;
-                    _pre_index = 1;
-					audio_play_sound(snd_menu_cancel,0,false);
-                }
-                break;
-            case 1:
-                if (Input_IsPressed(INPUT.LEFT) || Input_IsPressed(INPUT.RIGHT)) _pre_index_sell = 1 - _pre_index_sell;
-                Anim_Create(id, "_index_sell", ANIM_TWEEN.CUBIC, ANIM_EASE.OUT, _index_sell, _pre_index_sell - _index_sell, 15 * !global.classic_ui, , , , 1);
-                if (Input_IsPressed(INPUT.CONFIRM)) {
-                    Anim_Destroy(id);
-                    if (_index_sell == 0) {
-                        Player_SetGold(Player_GetGold() + Item_GetInventoryItems().GetItem(_pre_index)._price_sell);
-                        Item_GetInventoryItems().Remove(_pre_index);
-                        if (_pre_index <= Item_GetInventoryItems().GetCount()) _pre_index = (Item_GetInventoryItems().GetCount() == 0) ? 8 : Item_GetInventoryItems().GetCount() - 1;
-                        audio_play_sound(_snd_buy_item, 0, false);
-                        _index = abs(_pre_index % 2);
-                        _indexy = (_pre_index - abs(_pre_index % 2)) div 2;
-                    }
-                    _pre_index_sell = 0;
-                    _index_sell = 0;
-                    _choice_state = 0;
-                    Shop_RefreshTyper();
-					audio_play_sound(snd_menu_confirm,0,false);
-                }
-                if (Input_IsPressed(INPUT.CANCEL)) {
-                    _index = abs(_pre_index % 2);
-                    _indexy = (_pre_index - abs(_pre_index % 2)) div 2;
-                    _choice_state = 0;
-                    Shop_RefreshTyper();
-					audio_play_sound(snd_menu_cancel,0,false);
-                }
-                break;
-            }
-        } else {
-            if (Input_IsPressed(INPUT.CONFIRM) || Input_IsPressed(INPUT.CANCEL)) {
-                Shop_GoState(SHOP_STATE.MENU);
-                _pre_index = 1;
-                _index = 1;
-            }
-			audio_play_sound(snd_menu_confirm,0,false);
-        }
-    } else {
-        if (_dialog == false) {
-            Shop_DialogStart(_host.sold_false_text);
-        } else {
-            if (!instance_exists(shop_dialog_typer)) {
-                _dialog = false;
-                Shop_GoState(SHOP_STATE.MENU);
-            }
-        }
-    }
-    break;
-case SHOP_STATE.DIALOG:
-    if (_dialog == false) {
-        if (Input_IsPressed(INPUT.UP)) {
-            if (_pre_index <= 0) _pre_index = 4;
-            else _pre_index -= 1;
-            Anim_Create(id, "_index", ANIM_TWEEN.CUBIC, ANIM_EASE.OUT, _index, _pre_index - _index, 15 * !global.classic_ui, , , , 1);
-			audio_play_sound(snd_menu_switch,0,false);
-        }
-        if (Input_IsPressed(INPUT.DOWN)) {
-            if (_pre_index >= 4) _pre_index = 0;
-            else _pre_index += 1;
-            Anim_Create(id, "_index", ANIM_TWEEN.CUBIC, ANIM_EASE.OUT, _index, _pre_index - _index, 15 * !global.classic_ui, , , , 1);
-			audio_play_sound(snd_menu_switch,0,false);
-        }
-        if (Input_IsPressed(INPUT.CONFIRM)) {
-            Anim_Destroy(id);
-            if (_pre_index < 4) {
-                _index = _pre_index;
-                Shop_CallDialog(_pre_index);
-            } else {
-                Shop_GoState(SHOP_STATE.MENU);
-                _pre_index = 2;
-                _index = 2;
-            }
-			audio_play_sound(snd_menu_confirm,0,false);
-        }
-        if (Input_IsPressed(INPUT.CANCEL)) {
-            Anim_Destroy(id);
-            Shop_GoState(SHOP_STATE.MENU);
-            _pre_index = 2;
-            _index = 2;
-			audio_play_sound(snd_menu_cancel,0,false);
-        }
-    } else {
-        if (instance_exists(_typer_left)) {
-            instance_destroy(_typer_left);
-        }
-        if (instance_exists(_typer_right)) {
-            instance_destroy(_typer_right);
-        }
-        if (_dialog && !instance_exists(shop_dialog_typer)) {
-            _dialog = false;
-            Shop_RefreshTyper();
-        }
-
-    }
-    break;
-case SHOP_STATE.EXIT:
-    if (_dialog == false) {
-        Shop_DialogStart(_host.exit_text);
-    } else {
-        if (!instance_exists(shop_dialog_typer)) {
-            fader.alpha = 0;
-            Fader_Fade( - 1, 1, 50);
-            BGM_Resume(0);
-            BGM_SetVolume(0, 1);
-            BGM_Fade(0, 0, 50);
-            alarm[0] = 50;
-            _state = SHOP_STATE.CLOSE;
-        }
-    }
-    break;
+		if(Input_IsPressed(INPUT.CONFIRM)){
+			switch(_menu_choice){
+				case 0:
+					Shop_SetNextMenu(SHOP_MENU.BUY);
+					Shop_CallHostEvent(SHOP_HOST_EVENT.MENU_SWITCH);
+					
+					//Shop_SetMenu(SHOP_MENU.BUY);
+					
+					Shop_SetState(SHOP_STATE.DIALOG);
+					
+					if(instance_exists(_inst_dialog[0])){
+						instance_destroy(_inst_dialog[0]);
+					}
+					if(instance_exists(shop._inst_menu_choice)){
+						instance_destroy(shop._inst_menu_choice);
+					}
+					_buy_choice = 0;
+					break;
+					
+				case 1:
+					//if(shop_host._sellable = 1){
+						Shop_SetNextMenu(SHOP_MENU.SELL);
+						Shop_CallHostEvent(SHOP_HOST_EVENT.MENU_SWITCH);
+					//}
+					//else{
+					//	Shop_SetNextMenu(SHOP_MENU.MENU);
+					//	Shop_CallHostEvent(SHOP_HOST_EVENT.MENU_START);
+					//}
+					
+					//Shop_SetMenu(SHOP_MENU.BUY);
+					
+					Shop_SetState(SHOP_STATE.DIALOG);
+					
+					if(instance_exists(_inst_dialog[0])){
+						instance_destroy(_inst_dialog[0]);
+					}
+					if(instance_exists(shop._inst_menu_choice)){
+						instance_destroy(shop._inst_menu_choice);
+					}
+					_sell_choice = 0;
+					break;
+					
+				case 2:
+					Shop_SetNextMenu(SHOP_MENU.TALK);
+					Shop_CallHostEvent(SHOP_HOST_EVENT.MENU_SWITCH);
+					
+					//Shop_SetMenu(SHOP_MENU.BUY);
+					
+					Shop_SetState(SHOP_STATE.DIALOG);
+					
+					if(instance_exists(_inst_dialog[0])){
+						instance_destroy(_inst_dialog[0]);
+					}
+					if(instance_exists(shop._inst_menu_choice)){
+						instance_destroy(shop._inst_menu_choice);
+					}
+					_talk_choice = 0;
+					break;
+					
+				case 3:
+					Shop_SetNextMenu(SHOP_MENU.EXIT);
+					
+					Shop_CallHostEvent(SHOP_HOST_EVENT.MENU_SWITCH);
+					Shop_SetState(SHOP_STATE.DIALOG);
+					
+					
+					if(instance_exists(shop._inst_dialog[0])){
+						instance_destroy(shop._inst_dialog[0]);
+					}
+					if(instance_exists(shop._inst_menu_choice)){
+						instance_destroy(shop._inst_menu_choice);
+					}
+					break;
+			}
+		}
+	}
+	if(shop_menu = SHOP_MENU.BUY){
+		if(shop_menu_buy = SHOP_BUY.MENU){
+			if(Input_IsPressed(INPUT.CANCEL)||(Input_IsPressed(INPUT.CONFIRM)&&_buy_choice = 4)){
+				Shop_SetNextMenu(SHOP_MENU.MENU);
+				Shop_CallHostEvent(SHOP_HOST_EVENT.MENU_SWITCH);
+				Shop_SetState(SHOP_STATE.DIALOG);
+				if(instance_exists(_inst_dialog[0])){
+					instance_destroy(_inst_dialog[0]);
+				}
+				if(instance_exists(shop._inst_right_dialog)){
+					instance_destroy(shop._inst_right_dialog);
+				}
+				_menu_buy = -1;
+				//Shop_SetMenu(SHOP_MENU.MENU);
+				//Shop_CallHostEvent(SHOP_HOST_EVENT.MAIN_MENU_START);
+			}
+			if(Input_IsPressed(INPUT.DOWN)){
+				_buy_choice = (_buy_choice > 3 ? 0 : _buy_choice + 1);
+				if(_page_buy > Shop_GetBuyNumber() div 4 - 1&&Shop_GetBuyNumber() mod 4 = _buy_choice){
+					for(i=0;i<4-(Shop_GetBuyNumber() mod 4);i+=1){
+						_buy_choice += 1;
+					}
+				}
+				Shop_CallHostEvent(SHOP_HOST_EVENT.MENU_CHOICE_SWITCH);
+			}
+			if(Input_IsPressed(INPUT.UP)){
+				_buy_choice = (_buy_choice < 1 ? 4 : _buy_choice - 1);
+				if(_page_buy > Shop_GetBuyNumber() div 4 - 1&&_buy_choice = 3){
+					for(i=0;i<4-(Shop_GetBuyNumber() mod 4);i+=1){
+						_buy_choice -= 1;
+					}
+				}
+				Shop_CallHostEvent(SHOP_HOST_EVENT.MENU_CHOICE_SWITCH);
+			}
+			if(_buy_choice < 4){
+				if(Shop_GetBuyPageMax() > 1){
+					if(Input_IsPressed(INPUT.RIGHT)){
+						_page_buy = (_page_buy > Shop_GetBuyNumber() div 4 - 1 ? 0 : _page_buy + 1);
+						if(_page_buy > Shop_GetBuyNumber() div 4 - 1&&Shop_GetBuyNumber() mod 4 <= _buy_choice){
+							_buy_choice = Shop_GetBuyNumber() mod 4 - 1;
+						}
+						Shop_SetMenuBuy(0,_page_buy);
+						Shop_CallHostEvent(SHOP_HOST_EVENT.MENU_SWITCH);
+					}
+					if(Input_IsPressed(INPUT.LEFT)){
+						_page_buy = (_page_buy < 1 ? Shop_GetBuyNumber() div 4 : _page_buy - 1);
+						if(_page_buy > Shop_GetBuyNumber() div 4 - 1&&Shop_GetBuyNumber() mod 4 <= _buy_choice){
+							_buy_choice = Shop_GetBuyNumber() mod 4 - 1;
+						}
+						Shop_SetMenuBuy(0,_page_buy);
+						Shop_CallHostEvent(SHOP_HOST_EVENT.MENU_SWITCH);
+					}
+				}
+				if(Input_IsPressed(INPUT.CONFIRM)){
+					if(Shop_GetBuyBuyable(Shop_GetBuyChoice()) = SHOP_BUYABLE.BUYABLE){
+						Shop_SetMenuBuy(1);
+					}
+					else{
+						Shop_SetBuyResult(SHOP_BUY_RESULT.UNABLE);
+						Shop_CallHostEvent(SHOP_HOST_EVENT.MENU_CONFIRM);
+						Shop_CallHostEvent(SHOP_HOST_EVENT.MENU_START);
+					}
+				}
+			}
+		}
+		else if(shop_menu_buy = SHOP_BUY.CONFIRM){
+			/*if(Player_GetTextTyperChoice() = 0){
+				if(Player_GetGold() >= Item_GetPriceBuy(shop._host_item[|shop._page_buy*4+_buy_choice])&&Item_GetNumber() < 8){
+					audio_play_sound(snd_shop_item,0,0);
+					Item_Add(shop._host_item[|shop._page_buy*4+_buy_choice]);
+					Player_SetGold(Player_GetGold()-Item_GetPriceBuy(shop._host_item[|shop._page_buy*4+shop._buy_choice]));
+					Shop_SetBuyResult(0);
+					Shop_CallHostEvent(SHOP_HOST_EVENT.MENU_CONFIRM);
+					Shop_SetMenu(SHOP_MENU.BUY);
+					Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.TEXT_TYPER_CHOICE,-1);
+				}
+				else{
+					if!(Item_GetNumber() < 8){
+						Shop_SetBuyResult(2);
+						Shop_CallHostEvent(SHOP_HOST_EVENT.MENU_CONFIRM);
+					}
+					if!(Player_GetGold() >= Item_GetPriceBuy(shop._host_item[|shop._page_buy*4+shop._buy_choice])){
+						Shop_SetBuyResult(3);
+						Shop_CallHostEvent(SHOP_HOST_EVENT.MENU_CONFIRM);
+					}
+					Shop_SetMenu(SHOP_MENU.BUY);
+					Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.TEXT_TYPER_CHOICE,-1);
+				}
+			}
+			else if(Player_GetTextTyperChoice() = 1){
+				Shop_SetBuyResult(1);
+				Shop_CallHostEvent(SHOP_HOST_EVENT.MENU_CONFIRM);
+				Shop_SetMenu(SHOP_MENU.BUY);
+				Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.TEXT_TYPER_CHOICE,-1);
+				
+			}*/
+			//if(Input_IsPressed(INPUT.CONFIRM)){
+				//if(Player_GetGold() >= Shop_GetBuyPrice(shop._page_buy*4+_buy_choice)){
+				//	Shop_SetBuyResult(SHOP_BUY_RESULT.NO_MONEY);
+				//}
+				//show_message(Player_GetTextTyperChoice())
+				if(Player_GetTextTyperChoice() = 0){
+					Shop_SetBuyResult(SHOP_BUY_RESULT.YES);
+					Shop_CallHostEvent(SHOP_HOST_EVENT.MENU_CONFIRM);
+					Shop_SetMenu(SHOP_MENU.BUY);
+					Shop_SetMenuBuy(0,_page_buy);
+					Storage_SetTempFlag(FLAG_TEMP_TEXT_TYPER_CHOICE,-1);
+				}
+				if(Player_GetTextTyperChoice() = 1){
+					Shop_SetBuyResult(SHOP_BUY_RESULT.NO);
+					Shop_CallHostEvent(SHOP_HOST_EVENT.MENU_CONFIRM);
+					Shop_SetMenu(SHOP_MENU.BUY);
+					Shop_SetMenuBuy(0,_page_buy);
+					Storage_SetTempFlag(FLAG_TEMP_TEXT_TYPER_CHOICE,-1);
+				}
+			//}
+			if(Input_IsPressed(INPUT.CANCEL)){
+				Shop_SetBuyResult(SHOP_BUY_RESULT.NO);
+				Shop_CallHostEvent(SHOP_HOST_EVENT.MENU_CONFIRM);
+				Shop_SetMenu(SHOP_MENU.BUY);
+				Shop_SetMenuBuy(0,_page_buy);
+				//Flag_Set(FLAG_TYPE.TEMP,FLAG_TEMP.TEXT_TYPER_CHOICE,-1);
+			}
+		}
+	}
+	if(shop_menu = SHOP_MENU.SELL){
+		if(shop_menu_sell = SHOP_SELL.MENU){
+			if(Input_IsPressed(INPUT.DOWN)){
+				_sell_choice = (_sell_choice > 7 ? shop._sell_choice mod 2 : _sell_choice + 2);
+				if(_sell_choice mod 2 = 0){
+					if(_sell_choice = (Item_GetNumber()+1) div 2 * 2){
+						_sell_choice = 8;
+					}
+				}
+				else{
+					if(_sell_choice = (Item_GetNumber()) div 2 * 2 + 1){
+						_sell_choice = 1;
+					}
+				}
+			}
+			if(Input_IsPressed(INPUT.UP)){
+				if(_sell_choice = 8){
+					_sell_choice = (((Item_GetNumber()+1) div 2)-1)*2;
+				}
+				else{
+					_sell_choice -= 2;
+					if(_sell_choice = -2){
+						_sell_choice = 8;
+					}
+					else if(_sell_choice = -1){
+						_sell_choice = Item_GetNumber() div 2 * 2-1;
+					}
+				}
+			}
+			if(Input_IsPressed(INPUT.RIGHT)){
+				if!(_sell_choice = 8){
+					if(Item_GetNumber() mod 2 = 0||!(Item_GetNumber() mod 2 = 1&&_sell_choice = Item_GetNumber()-1))_sell_choice = (_sell_choice mod 2 ? _sell_choice - 1 : _sell_choice + 1);
+				}
+			}
+			if(Input_IsPressed(INPUT.LEFT)){
+				if!(_sell_choice = 8){
+					if(Item_GetNumber() mod 2 = 0||!(Item_GetNumber() mod 2 = 1&&_sell_choice = Item_GetNumber()-1))_sell_choice = (_sell_choice mod 2 ? _sell_choice - 1 : _sell_choice + 1);
+				}
+			}
+		
+			if(Input_IsPressed(INPUT.CONFIRM)&&_sell_choice < 8){
+				if(Item_GetInventoryItems().GetItem(_sell_choice)._sellable){
+					Shop_SetMenuSell(1);
+				}
+				else{
+					Shop_SetSellResult(SHOP_SELL_RESULT.UNABLE);
+					Shop_CallHostEvent(SHOP_HOST_EVENT.MENU_CONFIRM);
+					Shop_CallHostEvent(SHOP_HOST_EVENT.MENU_START);
+				}
+			}
+			if(Input_IsPressed(INPUT.CANCEL)||(Input_IsPressed(INPUT.CONFIRM)&&_sell_choice = 8)){
+				Shop_SetNextMenu(SHOP_MENU.MENU);
+				Shop_CallHostEvent(SHOP_HOST_EVENT.MENU_SWITCH);
+				Shop_SetState(SHOP_STATE.DIALOG);
+				if(instance_exists(_inst_dialog[0])){
+					instance_destroy(_inst_dialog[0]);
+				}
+				if(instance_exists(_inst_dialog[1])){
+					instance_destroy(_inst_dialog[1]);
+				}
+				_menu_sell = -1;
+			}
+		}
+		if(shop_menu_sell = SHOP_SELL.CONFIRM){
+			if(Player_GetTextTyperChoice() = 0){
+				Shop_SetSellResult(SHOP_SELL_RESULT.YES);
+				Shop_CallHostEvent(SHOP_HOST_EVENT.MENU_CONFIRM);
+				//Shop_SetMenu(SHOP_MENU.SELL);
+				//Shop_SetMenuSell(0);
+				Storage_SetTempFlag(FLAG_TEMP_TEXT_TYPER_CHOICE,-1);
+				
+				Shop_SetNextMenu(SHOP_MENU.SELL);
+				Shop_CallHostEvent(SHOP_HOST_EVENT.MENU_SWITCH);
+					
+				//Shop_SetMenu(SHOP_MENU.BUY);
+					
+				Shop_SetState(SHOP_STATE.DIALOG);
+					
+				if(instance_exists(_inst_dialog[0])){
+					instance_destroy(_inst_dialog[0]);
+				}
+				if(instance_exists(shop._inst_menu_choice)){
+					instance_destroy(shop._inst_menu_choice);
+				}
+				_sell_choice = 0;
+			}
+			if(Player_GetTextTyperChoice() = 1){
+				Shop_SetSellResult(SHOP_SELL_RESULT.NO);
+				Shop_CallHostEvent(SHOP_HOST_EVENT.MENU_CONFIRM);
+				Shop_SetMenu(SHOP_MENU.SELL);
+				Shop_SetMenuSell(0);
+				Storage_SetTempFlag(FLAG_TEMP_TEXT_TYPER_CHOICE,-1);
+			}
+			if(Input_IsPressed(INPUT.CANCEL)){
+				Shop_SetSellResult(SHOP_SELL_RESULT.NO);
+				Shop_CallHostEvent(SHOP_HOST_EVENT.MENU_CONFIRM);
+				Shop_SetMenu(SHOP_MENU.SELL);
+				Shop_SetMenuSell(0);
+			}
+		}
+	}
+	if(shop_menu = SHOP_MENU.TALK){
+		if(Input_IsPressed(INPUT.CANCEL)||(Input_IsPressed(INPUT.CONFIRM)&&_talk_choice = 4)){
+			Shop_SetNextMenu(SHOP_MENU.MENU);
+			Shop_CallHostEvent(SHOP_HOST_EVENT.MENU_SWITCH);
+			Shop_SetState(SHOP_STATE.DIALOG);
+			if(instance_exists(_inst_dialog[0])){
+				instance_destroy(_inst_dialog[0]);
+			}
+			if(instance_exists(shop._inst_right_dialog)){
+				instance_destroy(shop._inst_right_dialog);
+			}
+			//Shop_SetMenu(SHOP_MENU.MENU);
+			//Shop_CallHostEvent(SHOP_HOST_EVENT.MAIN_MENU_START);
+		}
+		if(Input_IsPressed(INPUT.DOWN)){
+			_talk_choice = (_talk_choice > 3 ? 0 : _talk_choice + 1);
+			if(_page_talk > Shop_GetTalkNumber() div 4 - 1&&Shop_GetTalkNumber() mod 4 = _talk_choice){
+				for(i=0;i<4-(Shop_GetTalkNumber() mod 4);i+=1){
+					_talk_choice += 1;
+				}
+			}
+		}
+		if(Input_IsPressed(INPUT.UP)){
+			_talk_choice = (_talk_choice < 1 ? 4 : _talk_choice - 1);
+			if(_page_talk > Shop_GetTalkNumber() div 4 - 1&&_talk_choice = 3){
+				for(i=0;i<4-(Shop_GetTalkNumber() mod 4);i+=1){
+					_talk_choice -= 1;
+				}
+			}
+		}
+		if(_talk_choice < 4){
+			if(Shop_GetTalkPageMax() > 1){
+				if(Input_IsPressed(INPUT.RIGHT)){
+					_page_talk = (_page_talk > Shop_GetTalkNumber() div 4 - 1 ? 0 : _page_talk + 1);
+					if(_page_talk > Shop_GetTalkNumber() div 4 - 1&&Shop_GetTalkNumber() mod 4 <= _talk_choice){
+						_talk_choice = Shop_GetTalkNumber() mod 4 - 1;
+					}
+					Shop_SetMenuTalk(_page_talk);
+				}
+				if(Input_IsPressed(INPUT.LEFT)){
+					_page_talk = (_page_talk < 1 ? Shop_GetTalkNumber() div 4 : _page_talk - 1);
+					if(_page_talk > Shop_GetTalkNumber() div 4 - 1&&Shop_GetTalkNumber() mod 4 <= _talk_choice){
+						_talk_choice = Shop_GetTalkNumber() mod 4 - 1;
+					}
+					Shop_SetMenuTalk(_page_talk);
+				}
+			}
+		}
+		if(Input_IsPressed(INPUT.CONFIRM)){
+			if(_talk_choice < 4){
+				instance_destroy(_inst_dialog[0]);
+				instance_destroy(_inst_right_dialog);
+				Shop_SetNextMenu(SHOP_MENU.TALK);
+				Shop_SetState(SHOP_STATE.DIALOG);
+				Shop_CallHostEvent(SHOP_HOST_EVENT.MENU_SWITCH);
+			}
+		}
+	}
+	if(shop_menu = SHOP_MENU.EXIT){
+		if(fader.alpha = 1){
+			Fader_Fade(1,0,20);
+			BGM_Stop(4);
+			room_goto(Storage_GetTempFlag(FLAG_TEMP_SHOP_ROOM_RETURN));
+		}
+	}
+}
+else if(shop_state = SHOP_STATE.DIALOG){
+	if(!instance_exists(_inst_dialog[0])){
+		if(!Dialog_IsEmpty()){
+			Shop_CallHostEvent(SHOP_HOST_EVENT.DIALOG_START);
+			Shop_SetDialog(Dialog_Get()+"{pause}{end}");
+		}
+		else if(Shop_IsDialogAutoEnd()){
+			Shop_EndDialog();
+		}
+	}
 }

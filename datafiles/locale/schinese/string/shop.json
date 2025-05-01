@@ -1,8 +1,12 @@
 {
-    "shop.menu": "  Buy&  Sell&  Talk&  Exit",
-    "shop.buy": "Buy it for&{insert GOLD}G?& Yes& No",
-    "shop.sell": "Sell it for {insert GOLD}G?&&",
-    "shop.sell.confirm": "   Yes                 No",
-    "shop.exit": "Exit",
-    "shop.exit.white": "{color `white`}Exit"
+    "shop.menu.choice.0": "购买",
+    "shop.menu.choice.1": "售卖",
+    "shop.menu.choice.2": "交谈",
+    "shop.menu.choice.3": "离开",
+    "shop.menu.exit": "离开",
+    "shop.menu.buy": "想买些什么?",
+    "shop.menu.buy.confirm": "以{insert PRICE}G&买下它?&  {choice 0}  是&  {choice 1}  否{choice `CHOICE`}{pause}",
+    "shop.menu.sell.confirm": "&            以{insert PRICE}G卖掉{insert ITEM}?&&                   {choice 0}  是                           {choice 1}  否{choice `CHOICE`}{pause}",
+    "shop.menu.talk": "想聊些什么?",
+    "shop.menu.page": "第{insert PAGE}页"
 }

@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"Shop_GetHost",
   "parent":{
-    "name":"Shop",
-    "path":"folders/Scripts/Shop.yy",
+    "name":"Host",
+    "path":"folders/Scripts/Shop/Host.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

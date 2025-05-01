@@ -1,64 +1,37 @@
-var SHOP=Storage_GetTempFlag(FLAG_TEMP_SHOP);
-depth = 97;
+var SHOP = Storage_GetTempFlag(FLAG_TEMP_SHOP);
+_host_object = Shop_GetHost(SHOP)
 
-// 设定位置
+_menu_dialog = Shop_GetMenuDialogFromShopCustom(SHOP)
+_right_dialog = ""
+_itemdesc_dialog = ""
 
-border_x1 = 0;
-border_y1 = 120;
-border_x2 = 319;
-border_y2 = 239;
-border_width = 4;
+_host_buy = ds_list_create()//内容由一个数组构成，数组结构为[名字(字符串),价格(数值),描述(字符串),是否可购买(布尔)]
+_host_talk = ds_list_create()//内容为名字(字符串)
 
-width_text = 25;
-width_heart = 30;
-height_text = 10;
+_state = -1
+_menu = -1
+_menu_buy = -1
+_menu_sell = -1
 
-menu_divide_x = 209;
-state_info_y = 200;
+_buy_result = 0
+_sell_result = 0
 
-buy_info_x = menu_divide_x;
-buy_info_y = border_y1 - 80;
-buy_info_inst_y = border_y1;
-buy_info__vspeedpeed = 8;
+_menu_choice = 0//主菜单选择
+_buy_choice = 0
+_sell_choice = 0
+_talk_choice = 0
 
-_index = 0;
-_indexy = 0;
-_index_buy = 0;
-_index_sell = 0;
-_choice_state = 0;
-_pre_index = 0;
-_pre_index_buy = 0;
-_pre_index_sell = 0;
-_exit_index = 0;
+_page_buy = 0
+_page_talk = 0
 
-_host = instance_create_depth(160,border_y1,-100,Shop_GetHost(SHOP));
+_dialog_auto_end = true
 
+_menu_next = -1
 
-var i=0;
-for(i=0;i<4;i++)
-{
-	_item[i]=_host.shop_item[i];
-}
-_background = Shop_GetBackground(SHOP);
-
-_typer_left = noone;
-_typer_right = noone;
-_typer_info = noone;
-_typer_state_0 = noone;
-_typer_state_1 = noone;
-_typer_left_refresh = true;
-_typer_right_refresh = true;
-_typer_info_refresh = true;
-_typer_state_refresh = true;
-
-_state = SHOP_STATE.ENCOUNTER;
-_dialog = false;
-
-_pre="{color `white`}{scale 1}{voice 0}{speed 2}{space_y 4}{shadow true}{depth "+string(DEPTH_UI.TEXT)+"}";
-_pre_inst="{color `white`}{font 1}{scale 1}{space_y 4}{shadow true}{instant true}{depth "+string(DEPTH_UI.TEXT)+"}";
-_pre_inst_2="{color `white`}{scale 1}{space_y 2}{shadow true}{instant true}{depth 98}";
-_pre_inst_3="{color `white`}{scale 1}{space_y 1}{shadow true}{instant true}{depth "+string(DEPTH_UI.TEXT)+"}";
-//
-_snd_buy_item = snd_buyitem;
-
-Shop_CallEvent(_state);
+_inst_dialog[0] = noone//对话
+_inst_dialog[1] = noone//对话
+_inst_menu_choice = noone//右侧四个选项
+_inst_page = noone//页码显示
+_inst_right_dialog = noone//右侧对话
+_inst_itemdesc = noone//购买界面物品描述
+_itemdesc_dialog = ""

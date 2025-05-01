@@ -1,16 +1,19 @@
-function Shop_Start(shop_id) {
+///@arg shop_id
+function Shop_Start(){
+	var SHOP=argument[0];
 
-    if (Shop_IsExists(shop_id)) {
+	if(instance_exists(char_player))char_player._moveable_shop = true;
+	if(Shop_IsExists(SHOP)){
+		Storage_SetTempFlag(FLAG_TEMP_SHOP,SHOP);
+		
+		Storage_SetTempFlag(FLAG_TEMP_SHOP_ROOM_RETURN,room);
+		room_persistent=true;
 
-        var z = Storage_SetTempFlag(FLAG_TEMP_SHOP, shop_id);
-		z.Set(FLAG_TEMP_SHOP_ROOM_RETURN, room);
-        room_persistent = true;
-
-        room_goto(room_shop);
-
-        return true;
-    } else {
-
-        return false;
-    }
+		room_goto(room_shop);
+	
+		return true;
+	}else{
+		Console_OutputLine("Shop ID "+string(SHOP)+" doesn't exists!");
+		return false;
+	}
 }

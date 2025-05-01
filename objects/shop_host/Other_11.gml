@@ -1,2 +1,2 @@
-/// @description Menu
-// You can write your code in this editor
+///@desc Main Menu Start
+//CC_Add("main menu start")

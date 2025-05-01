@@ -1,2 +1,2 @@
-/// @description Dialog
-// You can write your code in this editor
+///@desc Menu Choice Switch
+//CC_Add("menu choice switch")

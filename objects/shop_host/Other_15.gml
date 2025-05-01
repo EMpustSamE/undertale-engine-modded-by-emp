@@ -1,2 +1,2 @@
-/// @description Exit
-// You can write your code in this editor
+///@desc Menu Confirm
+//CC_Add("menu confirm")

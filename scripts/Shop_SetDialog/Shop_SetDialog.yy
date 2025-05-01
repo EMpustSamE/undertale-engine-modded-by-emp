@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"Shop_SetDialog",
   "parent":{
-    "name":"Shop",
-    "path":"folders/Scripts/Shop.yy",
+    "name":"Dialog",
+    "path":"folders/Scripts/Shop/Dialog.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",
